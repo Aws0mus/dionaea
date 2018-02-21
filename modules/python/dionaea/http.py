@@ -41,6 +41,7 @@ import urllib.parse
 import re
 import tempfile
 from datetime import datetime
+import string
 
 try:
     import jinja2
@@ -671,6 +672,7 @@ class httpd(connection):
 
     def send_head(self):
         rpath = os.path.normpath(self.header.path)
+        rpath = ''.join(filter(lambda x: x in string.printable, rpath))        
         fpath = os.path.join(self.root, rpath[1:])
         apath = os.path.abspath(fpath)
         aroot = os.path.abspath(self.root)
